@@ -1,3 +1,13 @@
+# Description
+
+The CNN's Fear and Greed website doesn't offer a historical dataset and the datasets that do exist have different values.
+
+I tried to collect the most accurate data I could find combining three different sources into one file.  I have included where i found the data and the csv/json.
+
+# Datasets
+
+I have pulled multiple datasets and json files from different websites that had historical Fear and Greed data.  I've included them in the datasets and json folder.
+
 ## Openstockalert.com
 
 * Data is from 2015-2022
