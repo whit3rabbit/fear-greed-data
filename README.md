@@ -54,13 +54,24 @@ I have pulled multiple datasets and json files from different websites that had 
 
 Higher the coefficent the more correlated with archive.org data:
 
-hackingthemarkets_fear_greed_data: Correlation coefficient of 0.4111
-openstockalert_fear_greed_data: Correlation coefficient of 0.4078
-alexey-formalmethods_fear_greed_data: Correlation coefficient of 0.4029
-macromicro_fear_greed_data: Correlation coefficient of 0.3437
+| DATASET   | CORRELATION |
+|---------------------------------------|--------|
+| openstockalert_fear_greed_data:       | 0.4078 |
+| alexey-formalmethods_fear_greed_data: | 0.4029 |
+| macromicro_fear_greed_data:           | 0.3437 |
 
 # Combining all the Data
 
 I've combined the early data from Hackingthemarket (2011-2016) with openstockalert data (2016-2022) then combined with latest data from CNN (2022-2023).
 
 * File: fear-greed-2011-2023.csv
+
+## About the data
+
+Ranges
+
+Extreme Fear: 0-24
+Fear: 25-49
+Neutral: 50
+Greed: 51-74
+Extreme Greed: 75-100
