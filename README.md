@@ -68,10 +68,32 @@ I've combined the early data from Hackingthemarket (2011-2016) with openstockale
 
 ## About the data
 
-Ranges
+As a general rule these are the ranges for the data
 
-Extreme Fear: 0-24
-Fear: 25-49
-Neutral: 50
-Greed: 51-74
-Extreme Greed: 75-100
+| EMOTION   | RANGE |
+|---------------------------------------|--------|
+| Extreme Fear | 0-24 |
+| Fear| 25-49 |
+| Neutral|  50 |
+| Greed | 51-74 |
+| Extreme Greed | 75-100 |
+
+Number of total days in each range from 2011-2023
+
+| Range         | Days      |
+|---------------|-----------|
+| Extreme Fear  | 503 days  |
+| Fear          | 1072 days |
+| Neutral       | 1283 days |
+| Greed         | 240 days  |
+| Extreme Greed | 154 days  |
+
+Average number of days in each range from 2011-2023
+
+| Range          | Average Duration (Days) |
+|----------------|-------------------------|
+| Extreme Fear   | 41.6                    |
+| Fear           | 56.8                    |
+| Neutral        | 16.0                    |
+| Greed          | 11.8                    |
+| Extreme Greed  | 7.7                     |
