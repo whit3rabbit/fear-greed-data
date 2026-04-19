@@ -1,0 +1,46 @@
+name: Update fear & greed data
+
+on:
+  schedule:
+    # 12:00 UTC on the 1st of each month.
+    - cron: "0 12 1 * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-data
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Fetch CNN data
+        run: python scripts/fetch_cnn.py
+
+      - name: Rebuild combined CSV
+        run: python scripts/build_combined.py
+
+      - name: Commit changes
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add fear-greed.csv datasets/cnn_fear_greed.csv json/cnn_output.json
+          if git diff --cached --quiet; then
+            echo "No data changes; skipping commit."
+            exit 0
+          fi
+          git commit -m "data: refresh CNN fear & greed ($(date -u +%Y-%m-%d))"
+          git push
