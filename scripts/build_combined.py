@@ -49,11 +49,33 @@ def load_inputs() -> tuple[pd.DataFrame, pd.DataFrame]:
     return archive, cnn
 
 
+# Cutoffs derived empirically from CNN's own labels in
+# datasets/cnn_fear_greed.csv. The band boundaries on the CNN side use
+# a half-open pattern: [0,25) extreme fear, [25,45) fear, [45,55) neutral,
+# [55,75) greed, [75,100] extreme greed.
+def rating_for(score: float) -> str:
+    if score < 25:
+        return "extreme fear"
+    if score < 45:
+        return "fear"
+    if score < 55:
+        return "neutral"
+    if score < 75:
+        return "greed"
+    return "extreme greed"
+
+
 def combine(archive: pd.DataFrame, cnn: pd.DataFrame) -> pd.DataFrame:
     combined = pd.concat([archive, cnn], ignore_index=True)
     # CNN wins on duplicate dates (it appears second, so keep=last).
     combined = combined.drop_duplicates(subset=["Date"], keep="last")
     combined = combined.sort_values("Date", kind="stable").reset_index(drop=True)
+
+    # Fill Rating for archive rows (CNN labels are authoritative and preserved).
+    combined["Rating"] = combined["Rating"].fillna("").astype(str)
+    blank = combined["Rating"].eq("")
+    combined.loc[blank, "Rating"] = combined.loc[blank, "Fear Greed"].apply(rating_for)
+
     return combined
 
 

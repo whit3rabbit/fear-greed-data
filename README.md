@@ -12,7 +12,7 @@ The up-to-date combined file is **[`fear-greed.csv`](fear-greed.csv)** at the re
 |------------|-------------------------------------------------------|
 | Date       | ISO `YYYY-MM-DD`                                      |
 | Fear Greed | Float score 0-100 (CNN era) / integer (pre-2021 era)  |
-| Rating     | CNN label (`extreme fear`, `fear`, `neutral`, `greed`, `extreme greed`); blank for pre-2021 rows |
+| Rating     | CNN label (`extreme fear`, `fear`, `neutral`, `greed`, `extreme greed`). CNN supplies this directly for 2021-02-01+; for older rows it is computed from the score using CNN's own band cutoffs. |
 
 Coverage:
 - 2011-01-03 through 2021-01-29 is frozen, sourced from [`datasets/archive/fear-greed-pre-2021.csv`](datasets/archive/fear-greed-pre-2021.csv) (derived from the hackingthemarkets + openstockalert combined file; see history sections below).
@@ -105,15 +105,15 @@ The original combined file used hackingthemarkets (2011-2016), openstockalert (2
 
 ## About the data
 
-As a general rule these are the ranges for the data
+CNN's score bands (derived empirically from its own labels in [`datasets/cnn_fear_greed.csv`](datasets/cnn_fear_greed.csv)):
 
-| EMOTION   | RANGE |
-|---------------------------------------|--------|
-| Extreme Fear | 0-24 |
-| Fear| 25-49 |
-| Neutral|  50 |
-| Greed | 51-74 |
-| Extreme Greed | 75-100 |
+| EMOTION       | RANGE        |
+|---------------|--------------|
+| Extreme Fear  | 0 - < 25     |
+| Fear          | 25 - < 45    |
+| Neutral       | 45 - < 55    |
+| Greed         | 55 - < 75    |
+| Extreme Greed | >= 75        |
 
 Number of total days in each range from 2011-2023
 
