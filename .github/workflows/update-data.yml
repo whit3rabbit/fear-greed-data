@@ -2,8 +2,8 @@ name: Update fear & greed data
 
 on:
   schedule:
-    # 12:00 UTC on the 1st of each month.
-    - cron: "0 12 1 * *"
+    # 23:00 UTC every Friday (after US market close).
+    - cron: "0 23 * * 5"
   workflow_dispatch: {}
 
 permissions:

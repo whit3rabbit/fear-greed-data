@@ -22,7 +22,7 @@ The previous file `fear-greed-2011-2023.csv` (M/D/YYYY dates, integer scores) ha
 
 # Automation
 
-A GitHub Actions workflow ([`.github/workflows/update-data.yml`](.github/workflows/update-data.yml)) rebuilds [`fear-greed.csv`](fear-greed.csv) on the 1st of each month (12:00 UTC) and also supports manual runs via **workflow_dispatch**. It commits the diff directly to `main` as `github-actions[bot]`.
+A GitHub Actions workflow ([`.github/workflows/update-data.yml`](.github/workflows/update-data.yml)) rebuilds [`fear-greed.csv`](fear-greed.csv) every Friday at 23:00 UTC (after US market close) and also supports manual runs via **workflow_dispatch**. It commits the diff directly to `main` as `github-actions[bot]`.
 
 Scripts:
 - [`scripts/fetch_cnn.py`](scripts/fetch_cnn.py) - fetches CNN endpoint, writes [`datasets/cnn_fear_greed.csv`](datasets/cnn_fear_greed.csv) and [`json/cnn_output.json`](json/cnn_output.json).
