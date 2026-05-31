@@ -32,13 +32,12 @@ Scripts:
 To run locally:
 
 ```bash
-python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt
-.venv/bin/python scripts/fetch_cnn.py        # -> datasets/cnn_fear_greed.csv + json/cnn_output.json
-.venv/bin/python scripts/build_combined.py   # -> fear-greed.csv
+uv sync
+uv run python scripts/fetch_cnn.py        # -> datasets/cnn_fear_greed.csv + json/cnn_output.json
+uv run python scripts/build_combined.py   # -> fear-greed.csv
 ```
 
-Dependencies are pinned in [`requirements.txt`](requirements.txt). `build_combined.py` aborts rather than writing if the combined output would be shorter than the archive, contains duplicate dates, or is more than 7 days stale.
+Dependencies are declared in [`pyproject.toml`](pyproject.toml). `build_combined.py` aborts rather than writing if the combined output would be shorter than the archive, contains duplicate dates, or is more than 7 days stale.
 
 The third-party comparison datasets under `datasets/` (openstockalert, hackingthemarkets, alexey-formalmethods, macromicro, archive.org) are historical snapshots and are **not** refreshed by the workflow.
 
