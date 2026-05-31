@@ -19,7 +19,7 @@ Aborts on sanity-check failure rather than writing a bad file:
 from __future__ import annotations
 
 import sys
-from datetime import date, timedelta
+from datetime import date
 from pathlib import Path
 
 import pandas as pd

@@ -11,7 +11,7 @@ dependencies = [
 
 [dependency-groups]
 dev = ["ruff>=0.9"]
-test = ["pytest>=8.0", "pytest-cov>=6.0"]
+test = ["pytest>=8.0"]
 
 [tool.uv]
 package = false
@@ -34,4 +34,5 @@ select = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["scripts"]
 addopts = "--strict-markers -q --tb=short"

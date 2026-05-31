@@ -1,5 +1,7 @@
 # Description
 
+[![Update fear & greed data](https://github.com/whit3rabbit/fear-greed-data/actions/workflows/update-data.yml/badge.svg)](https://github.com/whit3rabbit/fear-greed-data/actions/workflows/update-data.yml)
+
 The CNN's Fear and Greed website doesn't offer a historical dataset and the datasets that do exist have different values.
 
 I tried to collect the most accurate data I could find combining three different sources into one file.  I have included where i found the data and the csv/json.
@@ -22,7 +24,7 @@ The previous file `fear-greed-2011-2023.csv` (M/D/YYYY dates, integer scores) ha
 
 # Automation
 
-A GitHub Actions workflow ([`.github/workflows/update-data.yml`](.github/workflows/update-data.yml)) rebuilds [`fear-greed.csv`](fear-greed.csv) every Friday at 23:00 UTC (after US market close) and also supports manual runs via **workflow_dispatch**. It commits the diff directly to `main` as `github-actions[bot]`.
+A GitHub Actions workflow ([`.github/workflows/update-data.yml`](.github/workflows/update-data.yml)) rebuilds [`fear-greed.csv`](fear-greed.csv) Monday through Friday at 23:00 UTC (after US market close) and also supports manual runs via **workflow_dispatch**. It commits the diff directly to `main` as `github-actions[bot]`.
 
 Scripts:
 - [`scripts/fetch_cnn.py`](scripts/fetch_cnn.py) - fetches CNN endpoint, writes [`datasets/cnn_fear_greed.csv`](datasets/cnn_fear_greed.csv) and [`json/cnn_output.json`](json/cnn_output.json).
@@ -37,7 +39,7 @@ uv run python scripts/fetch_cnn.py        # -> datasets/cnn_fear_greed.csv + jso
 uv run python scripts/build_combined.py   # -> fear-greed.csv
 ```
 
-Dependencies are declared in [`pyproject.toml`](pyproject.toml). `build_combined.py` aborts rather than writing if the combined output would be shorter than the archive, contains duplicate dates, or is more than 7 days stale.
+Dependencies are declared in [`pyproject.toml`](pyproject.toml) and resolved in [`uv.lock`](uv.lock). `build_combined.py` aborts rather than writing if the combined output would be shorter than the archive, contains duplicate dates, or is more than 7 days stale.
 
 The third-party comparison datasets under `datasets/` (openstockalert, hackingthemarkets, alexey-formalmethods, macromicro, archive.org) are historical snapshots and are **not** refreshed by the workflow.
 
