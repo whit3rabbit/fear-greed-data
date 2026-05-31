@@ -1,5 +1,7 @@
 # Description
 
+[![Update fear & greed data](https://github.com/whit3rabbit/fear-greed-data/actions/workflows/update-data.yml/badge.svg)](https://github.com/whit3rabbit/fear-greed-data/actions/workflows/update-data.yml)
+
 The CNN's Fear and Greed website doesn't offer a historical dataset and the datasets that do exist have different values.
 
 I tried to collect the most accurate data I could find combining three different sources into one file.  I have included where i found the data and the csv/json.

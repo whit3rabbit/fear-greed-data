@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import csv
 import json
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -23,13 +24,16 @@ import requests
 START_DATE = "2021-02-01"
 URL = f"https://production.dataviz.cnn.io/index/fearandgreed/graphdata/{START_DATE}"
 
-# CNN returns 418/403 for the default python-requests UA.
+# CNN returns 418/403 for the default python-requests UA. Override via
+# the CNN_FETCH_USER_AGENT env var when CNN's bot detection rotates —
+# avoids editing this file just to bump the UA string.
+DEFAULT_USER_AGENT = (
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) "
+    "Chrome/124.0.0.0 Safari/537.36"
+)
 HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/124.0.0.0 Safari/537.36"
-    ),
+    "User-Agent": os.environ.get("CNN_FETCH_USER_AGENT") or DEFAULT_USER_AGENT,
     "Accept": "application/json, text/plain, */*",
     "Origin": "https://www.cnn.com",
     "Referer": "https://www.cnn.com/",

@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write
+  issues: write  # for the on-failure issue opener below
 
 concurrency:
   group: update-data
@@ -16,10 +17,12 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    env:
+      CNN_FETCH_USER_AGENT: ${{ vars.CNN_FETCH_USER_AGENT }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38  # v5.4.0
         with:
           python-version: "3.12"
           cache: pip
@@ -44,3 +47,40 @@ jobs:
           fi
           git commit -m "data: refresh CNN fear & greed ($(date -u +%Y-%m-%d))"
           git push
+
+      - name: Open issue on failure
+        if: failure()
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        with:
+          script: |
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const today = new Date().toISOString().slice(0, 10);
+            const title = `Weekly refresh failed (${today})`;
+            // Dedupe: don't pile on if today's failure already opened one.
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'refresh-failure',
+              per_page: 5,
+            });
+            if (existing.data.some(i => i.title === title)) {
+              core.info('Issue already exists for today; skipping create.');
+              return;
+            }
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title,
+              body: [
+                `The weekly refresh workflow failed on ${today}.`,
+                ``,
+                `**Run:** ${runUrl}`,
+                ``,
+                `Common causes:`,
+                `- CNN changed bot detection (returns 418 / 403) — try rotating the User-Agent in \`scripts/fetch_cnn.py\` (override via \`CNN_FETCH_USER_AGENT\` env var).`,
+                `- Endpoint shape change (\`fear_and_greed_historical.data\` missing).`,
+                `- Staleness check fired (last date > 7 days old).`,
+              ].join('\n'),
+              labels: ['refresh-failure'],
+            });
