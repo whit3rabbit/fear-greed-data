@@ -13,8 +13,8 @@ from datetime import date, timedelta
 
 import pandas as pd
 import pytest
-from build_combined import combine, rating_for, sanity_check
 
+from build_combined import combine, rating_for, sanity_check
 
 # rating_for boundaries — half-open per the existing code's comment
 

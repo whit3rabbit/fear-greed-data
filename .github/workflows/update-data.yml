@@ -22,19 +22,18 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
-      - uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38  # v5.4.0
+      - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b  # v8.1.0
         with:
           python-version: "3.12"
-          cache: pip
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: uv sync --locked --no-default-groups
 
       - name: Fetch CNN data
-        run: python scripts/fetch_cnn.py
+        run: uv run --no-sync python scripts/fetch_cnn.py
 
       - name: Rebuild combined CSV
-        run: python scripts/build_combined.py
+        run: uv run --no-sync python scripts/build_combined.py
 
       - name: Commit changes
         run: |

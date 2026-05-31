@@ -13,6 +13,7 @@ so the date conversion is exercised end-to-end without needing to mock
 from __future__ import annotations
 
 import pytest
+
 from fetch_cnn import parse
 
 

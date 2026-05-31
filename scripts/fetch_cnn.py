@@ -15,7 +15,7 @@ import csv
 import json
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import requests
@@ -61,7 +61,7 @@ def parse(payload: dict) -> list[tuple[str, float, str]]:
         ts_ms = entry["x"]
         score = float(entry["y"])
         rating = entry.get("rating", "")
-        d = datetime.fromtimestamp(ts_ms / 1000, tz=timezone.utc).date()
+        d = datetime.fromtimestamp(ts_ms / 1000, tz=UTC).date()
         rows.append((d.isoformat(), score, rating))
 
     # Endpoint usually returns sorted data, but don't rely on it.

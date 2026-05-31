@@ -1,0 +1,38 @@
+[project]
+name = "fear-greed-data"
+version = "0.1.0"
+description = "CNN Fear and Greed historical dataset builder"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "requests>=2.31",
+    "pandas>=2.0",
+]
+
+[dependency-groups]
+dev = ["ruff>=0.9"]
+test = ["pytest>=8.0"]
+
+[tool.uv]
+package = false
+default-groups = ["dev", "test"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+src = ["scripts", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes (unused imports, undefined names)
+    "I",   # isort (import order)
+    "N",   # pep8-naming
+    "W",   # pycodestyle warnings
+    "UP",  # pyupgrade (modernise syntax)
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["scripts"]
+addopts = "--strict-markers -q --tb=short"
