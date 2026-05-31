@@ -2,8 +2,8 @@ name: Update fear & greed data
 
 on:
   schedule:
-    # 23:00 UTC every Friday (after US market close).
-    - cron: "0 23 * * 5"
+    # 23:00 UTC Monday-Friday (after US market close).
+    - cron: "0 23 * * 1-5"
   workflow_dispatch: {}
 
 permissions:
@@ -55,7 +55,7 @@ jobs:
           script: |
             const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
             const today = new Date().toISOString().slice(0, 10);
-            const title = `Weekly refresh failed (${today})`;
+            const title = `Data refresh failed (${today})`;
             // Dedupe: don't pile on if today's failure already opened one.
             const existing = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
@@ -73,7 +73,7 @@ jobs:
               repo: context.repo.repo,
               title,
               body: [
-                `The weekly refresh workflow failed on ${today}.`,
+                `The scheduled refresh workflow failed on ${today}.`,
                 ``,
                 `**Run:** ${runUrl}`,
                 ``,
